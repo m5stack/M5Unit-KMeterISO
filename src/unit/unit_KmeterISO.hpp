@@ -195,9 +195,9 @@ class UnitKmeterISO : public Component {
     config_t _cfg{};
 };
 
-///@cond0
 namespace kmeter {
 namespace command {
+///@cond
 constexpr uint8_t TEMP_CELSIUS_VAL_REG{0X00};
 constexpr uint8_t TEMP_FAHRENHEIT_VAL_REG{0X04};
 constexpr uint8_t INTERNAL_TEMP_CELSIUS_VAL_REG{0X10};
@@ -209,9 +209,9 @@ constexpr uint8_t INTERNAL_TEMP_CELSIUS_STRING_REG{0x50};
 constexpr uint8_t INTERNAL_TEMP_FAHRENHEIT_STRING_REG{0x60};
 constexpr uint8_t FIRMWARE_VERSION_REG{0xFE};
 constexpr uint8_t I2C_ADDRESS_REG{0xFF};
+///@endcond
 }  // namespace command
 }  // namespace kmeter
-///@endcond
 
 }  // namespace unit
 }  // namespace m5
