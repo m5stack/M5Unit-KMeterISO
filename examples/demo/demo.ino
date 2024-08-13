@@ -37,16 +37,10 @@ void loop() {
     if (millis() > delay_time) {
         error_status = kmeter.getReadyStatus();
         if (error_status == 0) {
-            Serial.printf("Celsius Temp: %.2fC\r\n",
-                          ((float)(kmeter.getCelsiusTempValue())) / 100);
-            Serial.printf("Fahrenheit Temp: %.2fF\r\n",
-                          ((float)(kmeter.getFahrenheitTempValue())) / 100);
-            Serial.printf(
-                "Chip Celsius Temp: %.2fC\r\n",
-                ((float)(kmeter.getInternalCelsiusTempValue())) / 100);
-            Serial.printf(
-                "Chip Fahrenheit Temp: %.2fF\r\n",
-                ((float)(kmeter.getInternalFahrenheitTempValue())) / 100);
+            Serial.printf("Celsius Temp: %.2fC\r\n", ((float)(kmeter.getCelsiusTempValue())) / 100);
+            Serial.printf("Fahrenheit Temp: %.2fF\r\n", ((float)(kmeter.getFahrenheitTempValue())) / 100);
+            Serial.printf("Chip Celsius Temp: %.2fC\r\n", ((float)(kmeter.getInternalCelsiusTempValue())) / 100);
+            Serial.printf("Chip Fahrenheit Temp: %.2fF\r\n", ((float)(kmeter.getInternalFahrenheitTempValue())) / 100);
         } else {
             Serial.printf("Error: %d", kmeter.getReadyStatus());
         }

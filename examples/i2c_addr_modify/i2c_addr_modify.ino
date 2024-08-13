@@ -25,8 +25,7 @@ void setup() {
     }
 
     if (kmeter.setI2CAddress(KMETER_DEFAULT_ADDR + 1)) {
-        Serial.printf("Modify KmeterISO I2C Addr to  %02X",
-                      KMETER_DEFAULT_ADDR + 1);
+        Serial.printf("Modify KmeterISO I2C Addr to  %02X", KMETER_DEFAULT_ADDR + 1);
     } else {
         Serial.println("I2C Addr Modify Fail");
     }

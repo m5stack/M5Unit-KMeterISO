@@ -55,8 +55,7 @@ void setup() {
     i2c_cfg.pin_scl = m5::hal::gpio::getPin(pin_num_scl);
     auto i2c_bus    = m5::hal::bus::i2c::getBus(i2c_cfg);
     M5_LOGI("Bus:%d", i2c_bus.has_value());
-    if (!Units.add(unit, i2c_bus ? i2c_bus.value() : nullptr) ||
-        !Units.begin()) {
+    if (!Units.add(unit, i2c_bus ? i2c_bus.value() : nullptr) || !Units.begin()) {
         M5_LOGE("Failed to begin");
         display.clear(TFT_RED);
         while (true) {
@@ -94,8 +93,7 @@ void setup() {
         display.setRotation(display.getRotation() ^ 1);
     }
     display.setFont(&fonts::Font4);
-    display.setTextColor((uint32_t)~display.getBaseColor(),
-                         display.getBaseColor());
+    display.setTextColor((uint32_t)~display.getBaseColor(), display.getBaseColor());
     display.setTextDatum(textdatum_t::top_right);
     display.setTextPadding(display.textWidth("1888.88", &fonts::Font4));
     graph_y_offset = display.fontHeight(&fonts::Font4);
@@ -113,9 +111,7 @@ void setup() {
     tempdata_buf   = (float*)malloc(tempdata_count * sizeof(float));
 
     int32_t tmp{};
-    float temperature = unit.readCelsiusTemperature(tmp)
-                            ? m5::unit::UnitKmeterISO::conversion(tmp)
-                            : 0.0f;
+    float temperature = unit.readCelsiusTemperature(tmp) ? m5::unit::UnitKmeterISO::conversion(tmp) : 0.0f;
     min_temp = max_temp = temperature;
     for (size_t i = 0; i < tempdata_count; ++i) {
         tempdata_buf[i] = temperature;
@@ -142,8 +138,7 @@ void drawGraph(void) {
 
     float magnify = (float)graph_height / (max_temp - min_temp);
 
-    static constexpr int steps[] = {1,  2,   5,   10,  20,
-                                    50, 100, 200, 500, INT_MAX};
+    static constexpr int steps[] = {1, 2, 5, 10, 20, 50, 100, 200, 500, INT_MAX};
     int step_index               = 0;
     while (magnify * steps[step_index] < 10) {
         ++step_index;
@@ -155,8 +150,7 @@ void drawGraph(void) {
 
     int gauge = ((int)min_temp / step) * step;
     do {
-        canvas[flip].drawPixel(0, graph_height - ((gauge - min_temp) * magnify),
-                               TFT_DARKGRAY);
+        canvas[flip].drawPixel(0, graph_height - ((gauge - min_temp) * magnify), TFT_DARKGRAY);
     } while (max_temp > (gauge += step));
 
     size_t buffer_len = canvas[flip].bufferLength();
@@ -182,7 +176,7 @@ void drawGraph(void) {
         }
 
         int y1 = y0;
-        y0 = graph_height - ((tempdata_buf[drawindex] - min_temp) * magnify);
+        y0     = graph_height - ((tempdata_buf[drawindex] - min_temp) * magnify);
         if (++drawindex >= tempdata_count) {
             drawindex = 0;
         }
@@ -190,9 +184,8 @@ void drawGraph(void) {
         if (display.width() - draw_x < 24) {
             gauge = ((int)min_temp / step) * step;
             do {
-                canvas[flip].drawNumber(
-                    (int)gauge, display.width() - draw_x,
-                    graph_height - ((gauge - min_temp) * magnify));
+                canvas[flip].drawNumber((int)gauge, display.width() - draw_x,
+                                        graph_height - ((gauge - min_temp) * magnify));
             } while (max_temp > (gauge += step));
         }
 

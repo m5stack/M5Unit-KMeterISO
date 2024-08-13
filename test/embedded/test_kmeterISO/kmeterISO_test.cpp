@@ -30,8 +30,7 @@ float celsiusToFahrenheit(float celsius) {
 
 }  // namespace
 
-const ::testing::Environment* global_fixture =
-    ::testing::AddGlobalTestEnvironment(new GlobalFixture<100000U>());
+const ::testing::Environment* global_fixture = ::testing::AddGlobalTestEnvironment(new GlobalFixture<100000U>());
 
 class TestKmeterISO : public ComponentTestBase<UnitKmeterISO, bool> {
    protected:
