@@ -48,8 +48,7 @@ class UnitKmeterISO : public Component {
         uint32_t interval{1000};  //!< @breif periodic interval
     };
 
-    explicit UnitKmeterISO(const uint8_t addr = DEFAULT_ADDRESS)
-        : Component(addr) {
+    explicit UnitKmeterISO(const uint8_t addr = DEFAULT_ADDRESS) : Component(addr) {
     }
     virtual ~UnitKmeterISO() {
     }

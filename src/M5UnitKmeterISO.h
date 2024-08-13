@@ -26,8 +26,8 @@ class M5UnitKmeterISO {
     void readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
 
    public:
-    bool begin(TwoWire *wire = &Wire, uint8_t addr = KMETER_DEFAULT_ADDR,
-               uint8_t sda = 21, uint8_t scl = 22, uint32_t speed = 100000L);
+    bool begin(TwoWire *wire = &Wire, uint8_t addr = KMETER_DEFAULT_ADDR, uint8_t sda = 21, uint8_t scl = 22,
+               uint32_t speed = 100000L);
     int32_t getCelsiusTempValue(void);
     int32_t getFahrenheitTempValue(void);
     int32_t getInternalCelsiusTempValue(void);

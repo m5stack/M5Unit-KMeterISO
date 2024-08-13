@@ -20,8 +20,7 @@ namespace {
 template <typename T>
 T array_to_type(const std::array<uint8_t, 4>& a) {
     static_assert(std::is_integral<T>::value && sizeof(T) == 4, "Invalid type");
-    return (((uint32_t)a[3]) << 24) | (((uint32_t)a[2]) << 16) |
-           (((uint32_t)a[1]) << 8) | (((uint32_t)a[0]) << 0);
+    return (((uint32_t)a[3]) << 24) | (((uint32_t)a[2]) << 16) | (((uint32_t)a[1]) << 8) | (((uint32_t)a[0]) << 0);
 }
 }  // namespace
 
@@ -94,8 +93,7 @@ bool UnitKmeterISO::readFahrenheitTemperature(int32_t& ft) {
 
 bool UnitKmeterISO::readInternalCelsiusTemperature(int32_t& ct) {
     std::array<uint8_t, 4> rbuf{};
-    if (readRegister(INTERNAL_TEMP_CELSIUS_VAL_REG, rbuf.data(), rbuf.size(),
-                     0)) {
+    if (readRegister(INTERNAL_TEMP_CELSIUS_VAL_REG, rbuf.data(), rbuf.size(), 0)) {
         ct = array_to_type<int32_t>(rbuf);
         return true;
     }
@@ -104,8 +102,7 @@ bool UnitKmeterISO::readInternalCelsiusTemperature(int32_t& ct) {
 
 bool UnitKmeterISO::readInternalFahrenheitTemperature(int32_t& ft) {
     std::array<uint8_t, 4> rbuf{};
-    if (readRegister(INTERNAL_TEMP_FAHRENHEIT_VAL_REG, rbuf.data(), rbuf.size(),
-                     0)) {
+    if (readRegister(INTERNAL_TEMP_FAHRENHEIT_VAL_REG, rbuf.data(), rbuf.size(), 0)) {
         ft = array_to_type<int32_t>(rbuf);
         return true;
     }
@@ -137,8 +134,7 @@ bool UnitKmeterISO::readInternalCelsiusTemperatureString(char* str) {
 }
 
 bool UnitKmeterISO::readInternalFahrenheitTemperatureString(char* str) {
-    if (str && readRegister(INTERNAL_TEMP_FAHRENHEIT_STRING_REG, (uint8_t*)str,
-                            8U, 0)) {
+    if (str && readRegister(INTERNAL_TEMP_FAHRENHEIT_STRING_REG, (uint8_t*)str, 8U, 0)) {
         str[8] = '\0';
         return true;
     }
@@ -150,8 +146,7 @@ bool UnitKmeterISO::changeI2CAddress(const uint8_t i2c_address) {
         M5_LIB_LOGE("Invalid address : %02X", i2c_address);
         return false;
     }
-    if (writeRegister8(I2C_ADDRESS_REG, i2c_address) &&
-        changeAddress(i2c_address)) {
+    if (writeRegister8(I2C_ADDRESS_REG, i2c_address) && changeAddress(i2c_address)) {
         // Wait wakeup
         uint8_t v{};
         bool done{};
