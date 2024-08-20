@@ -11,6 +11,6 @@
 #ifdef __cplusplus
 #include "M5UnitUnifiedKmeterISO.hpp"
 #else
-#error M5UnitUnifiedKmeterISO requires a C++ compiler, please change file extension to .cc or .cpp
+#error M5UnitdKmeterISO requires a C++ compiler, please change file extension to .cc or .cpp
 #endif
 #endif

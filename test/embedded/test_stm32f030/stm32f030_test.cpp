@@ -6,22 +6,19 @@
 /*
   UnitTest for KMeterISO
 */
-
-// Move to each libarry
-
 #include <gtest/gtest.h>
 #include <Wire.h>
 #include <M5Unified.h>
 #include <M5UnitUnified.hpp>
 #include <googletest/test_template.hpp>
-#include <unit/unit_KmeterISO.hpp>
+#include <unit/unit_STM32F030.hpp>
 #include <chrono>
 #include <thread>
 #include <iostream>
 
 using namespace m5::unit::googletest;
 using namespace m5::unit;
-using namespace m5::unit::kmeter;
+using namespace m5::unit::stm32f030;
 
 namespace {
 float celsiusToFahrenheit(float celsius) {
@@ -32,23 +29,21 @@ float celsiusToFahrenheit(float celsius) {
 
 const ::testing::Environment* global_fixture = ::testing::AddGlobalTestEnvironment(new GlobalFixture<100000U>());
 
-class TestKmeterISO : public ComponentTestBase<UnitKmeterISO, bool> {
+class TestSTM32F030 : public ComponentTestBase<UnitSTM32F030, bool> {
    protected:
-    virtual UnitKmeterISO* get_instance() override {
-        return new m5::unit::UnitKmeterISO();
+    virtual UnitSTM32F030* get_instance() override {
+        return new m5::unit::UnitSTM32F030();
     }
     virtual bool is_using_hal() const override {
         return GetParam();
     };
 };
 
-// INSTANTIATE_TEST_SUITE_P(ParamValues, TestKmeterISO,
-//                         ::testing::Values(false, true));
-// INSTANTIATE_TEST_SUITE_P(ParamValues, TestKmeterISO,
-// ::testing::Values(true));
-INSTANTIATE_TEST_SUITE_P(ParamValues, TestKmeterISO, ::testing::Values(false));
+// INSTANTIATE_TEST_SUITE_P(ParamValues, TestSTM32F030, ::testing::Values(false, true));
+// INSTANTIATE_TEST_SUITE_P(ParamValues, TestSTM32F030, ::testing::Values(true));
+INSTANTIATE_TEST_SUITE_P(ParamValues, TestSTM32F030, ::testing::Values(false));
 
-TEST_P(TestKmeterISO, Version) {
+TEST_P(TestSTM32F030, Version) {
     SCOPED_TRACE(ustr);
 
     uint8_t ver{0x00};
@@ -56,7 +51,7 @@ TEST_P(TestKmeterISO, Version) {
     EXPECT_NE(ver, 0x00);
 }
 
-TEST_P(TestKmeterISO, Measurement) {
+TEST_P(TestSTM32F030, Measurement) {
     SCOPED_TRACE(ustr);
 
     uint8_t status{0xFF};
@@ -70,8 +65,8 @@ TEST_P(TestKmeterISO, Measurement) {
     {
         EXPECT_TRUE(unit->readCelsiusTemperature(c));
         EXPECT_TRUE(unit->readFahrenheitTemperature(f));
-        cc = UnitKmeterISO::conversion(c);
-        ff = UnitKmeterISO::conversion(f);
+        cc = UnitSTM32F030::conversion(c);
+        ff = UnitSTM32F030::conversion(f);
         EXPECT_NEAR(celsiusToFahrenheit(cc), ff, 0.01f);
 
         EXPECT_TRUE(unit->readCelsiusTemperatureString(sc));
@@ -82,8 +77,8 @@ TEST_P(TestKmeterISO, Measurement) {
     {
         EXPECT_TRUE(unit->readInternalCelsiusTemperature(c));
         EXPECT_TRUE(unit->readInternalFahrenheitTemperature(f));
-        cc = UnitKmeterISO::conversion(c);
-        ff = UnitKmeterISO::conversion(f);
+        cc = UnitSTM32F030::conversion(c);
+        ff = UnitSTM32F030::conversion(f);
         EXPECT_NEAR(celsiusToFahrenheit(cc), ff, 0.01f);
 
         EXPECT_TRUE(unit->readInternalCelsiusTemperatureString(sc));
@@ -92,7 +87,7 @@ TEST_P(TestKmeterISO, Measurement) {
     }
 }
 
-TEST_P(TestKmeterISO, Periodic) {
+TEST_P(TestSTM32F030, Periodic) {
     EXPECT_TRUE(unit->stopPeriodicMeasurement());
     EXPECT_FALSE(unit->inPeriodic());
 
@@ -118,7 +113,7 @@ TEST_P(TestKmeterISO, Periodic) {
     EXPECT_LE(now, timeout_at);
 }
 
-TEST_P(TestKmeterISO, I2CAddress) {
+TEST_P(TestSTM32F030, I2CAddress) {
     SCOPED_TRACE(ustr);
 
     uint8_t ver{}, addr{};
@@ -140,7 +135,7 @@ TEST_P(TestKmeterISO, I2CAddress) {
     EXPECT_TRUE(unit->readFirmwareVersion(ver));
     EXPECT_NE(ver, 0x00);
 
-    EXPECT_TRUE(unit->changeI2CAddress(UnitKmeterISO::DEFAULT_ADDRESS));
+    EXPECT_TRUE(unit->changeI2CAddress(UnitSTM32F030::DEFAULT_ADDRESS));
     EXPECT_TRUE(unit->readFirmwareVersion(ver));
     EXPECT_NE(ver, 0x00);
 }

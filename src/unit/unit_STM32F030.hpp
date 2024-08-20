@@ -1,29 +1,14 @@
 /*
  * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
  */
 /*!
-  @file unit_KmeterISO.hpp
+  @file unit_STM32F030.hpp
   @brief KmeterISO Unit for M5UnitUnified
-
-  KMeterISO unitis an integrated K-type thermocouple sensor unit that integrates
-  the functions of "acquisition + isolation + communication", using
-  STM32F030+MAX31855KASA 14bit thermocouple digital conversion chip scheme to
-  achieve high-precision temperature acquisition and conversion, MCU using
-  STM32F030 to realize data acquisition and I2C communication interface, using
-  CA-IS3641HW as a signal isolator. The unit supports access to thermocouple
-  probes with a measurement range of -200°C to 1350°C, and adopts a universal
-  standard K-type flat interface, which is convenient for subsequent replacement
-  of different measuring probes to match different needs. This module is widely
-  used in application scenarios such as temperature collection, control, and
-  monitoring in industrial automation, instrumentation, power and electrical,
-  heat treatment and other fields.
-
-
-
-  SPDX-License-Identifier: MIT
 */
-#ifndef M5_UNIT_METER_UNIT_K_METER_HPP
-#define M5_UNIT_METER_UNIT_K_METER_HPP
+#ifndef M5_UNIT_UNIFIED_KMETERISO_UNIT_STM32F030_HPP
+#define M5_UNIT_UNIFIED_KMETERISO_UNIT_STM32F030_HPP
 
 #include <M5UnitComponent.hpp>
 
@@ -31,12 +16,12 @@ namespace m5 {
 namespace unit {
 
 /*!
-  @class UnitKmeterISO
+  @class UnitSTM32F030
   @brief KMeterISO unitis an integrated K-type thermocouple sensor unit that
   integrates the functions of "acquisition + isolation + communication"
  */
-class UnitKmeterISO : public Component {
-    M5_UNIT_COMPONENT_HPP_BUILDER(UnitKmeterISO, 0x66);  // 66
+class UnitSTM32F030 : public Component {
+    M5_UNIT_COMPONENT_HPP_BUILDER(UnitSTM32F030, 0x66);  // 66
 
    public:
     /*!
@@ -48,9 +33,9 @@ class UnitKmeterISO : public Component {
         uint32_t interval{1000};  //!< @breif periodic interval
     };
 
-    explicit UnitKmeterISO(const uint8_t addr = DEFAULT_ADDRESS) : Component(addr) {
+    explicit UnitSTM32F030(const uint8_t addr = DEFAULT_ADDRESS) : Component(addr) {
     }
-    virtual ~UnitKmeterISO() {
+    virtual ~UnitSTM32F030() {
     }
 
     virtual bool begin() override;
@@ -194,7 +179,7 @@ class UnitKmeterISO : public Component {
     config_t _cfg{};
 };
 
-namespace kmeter {
+namespace stm32f030 {
 namespace command {
 ///@cond
 constexpr uint8_t TEMP_CELSIUS_VAL_REG{0X00};
@@ -210,7 +195,7 @@ constexpr uint8_t FIRMWARE_VERSION_REG{0xFE};
 constexpr uint8_t I2C_ADDRESS_REG{0xFF};
 ///@endcond
 }  // namespace command
-}  // namespace kmeter
+}  // namespace stm32f030
 
 }  // namespace unit
 }  // namespace m5

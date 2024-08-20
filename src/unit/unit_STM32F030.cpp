@@ -1,20 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
 /*!
-  @file unit_KmeterISO.cpp
-  @brief KmeterISO Unit for M5UnitUnified
-
-  SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
-
-  SPDX-License-Identifier: MIT
+  @file unit_STM32F030.cpp
+  @brief STM32F030 Unit for M5UnitUnified
 */
-#include "unit_KmeterISO.hpp"
+#include "unit_STM32F030.hpp"
 #include <M5Utility.hpp>
 #include <array>
 #include <thread>
 
 using namespace m5::utility::mmh3;
 using namespace m5::unit::types;
-using namespace m5::unit::kmeter;
-using namespace m5::unit::kmeter::command;
+using namespace m5::unit::stm32f030;
+using namespace m5::unit::stm32f030::command;
 
 namespace {
 template <typename T>
@@ -26,12 +27,12 @@ T array_to_type(const std::array<uint8_t, 4>& a) {
 
 namespace m5 {
 namespace unit {
-// class UnitKmeterISO
-const char UnitKmeterISO::name[] = "UnitKmeterISO";
-const types::uid_t UnitKmeterISO::uid{"UnitKmeterISO"_mmh3};
-const types::uid_t UnitKmeterISO::attr{0};
+// class UnitSTM32F030
+const char UnitSTM32F030::name[] = "UnitSTM32F030";
+const types::uid_t UnitSTM32F030::uid{"UnitSTM32F030"_mmh3};
+const types::uid_t UnitSTM32F030::attr{0};
 
-bool UnitKmeterISO::begin() {
+bool UnitSTM32F030::begin() {
     uint8_t ver{0x00};
     if (!readFirmwareVersion(ver) && (ver == 0x00)) {
         M5_LIB_LOGE("Failed to read version");
@@ -40,7 +41,7 @@ bool UnitKmeterISO::begin() {
     return _cfg.periodic ? startPeriodicMeasurement(_cfg.interval) : true;
 }
 
-void UnitKmeterISO::update(const bool force) {
+void UnitSTM32F030::update(const bool force) {
     _updated = false;
     if (inPeriodic()) {
         elapsed_time_t at{m5::utility::millis()};
@@ -53,27 +54,27 @@ void UnitKmeterISO::update(const bool force) {
     }
 }
 
-bool UnitKmeterISO::startPeriodicMeasurement(const uint32_t interval) {
+bool UnitSTM32F030::startPeriodicMeasurement(const uint32_t interval) {
     _interval = interval;
     _periodic = true;
     _latest   = 0;
     return true;
 }
 
-bool UnitKmeterISO::stopPeriodicMeasurement() {
+bool UnitSTM32F030::stopPeriodicMeasurement() {
     _periodic = _updated = false;
     return true;
 }
 
-bool UnitKmeterISO::readStatus(uint8_t& status) {
+bool UnitSTM32F030::readStatus(uint8_t& status) {
     return readRegister8(ERROR_STATUS_REG, status, 0);
 }
 
-bool UnitKmeterISO::readFirmwareVersion(uint8_t& ver) {
+bool UnitSTM32F030::readFirmwareVersion(uint8_t& ver) {
     return readRegister8(FIRMWARE_VERSION_REG, ver, 0);
 }
 
-bool UnitKmeterISO::readCelsiusTemperature(int32_t& ct) {
+bool UnitSTM32F030::readCelsiusTemperature(int32_t& ct) {
     std::array<uint8_t, 4> rbuf{};
     if (readRegister(TEMP_CELSIUS_VAL_REG, rbuf.data(), rbuf.size(), 0)) {
         ct = array_to_type<int32_t>(rbuf);
@@ -82,7 +83,7 @@ bool UnitKmeterISO::readCelsiusTemperature(int32_t& ct) {
     return false;
 }
 
-bool UnitKmeterISO::readFahrenheitTemperature(int32_t& ft) {
+bool UnitSTM32F030::readFahrenheitTemperature(int32_t& ft) {
     std::array<uint8_t, 4> rbuf{};
     if (readRegister(TEMP_FAHRENHEIT_VAL_REG, rbuf.data(), rbuf.size(), 0)) {
         ft = array_to_type<int32_t>(rbuf);
@@ -91,7 +92,7 @@ bool UnitKmeterISO::readFahrenheitTemperature(int32_t& ft) {
     return false;
 }
 
-bool UnitKmeterISO::readInternalCelsiusTemperature(int32_t& ct) {
+bool UnitSTM32F030::readInternalCelsiusTemperature(int32_t& ct) {
     std::array<uint8_t, 4> rbuf{};
     if (readRegister(INTERNAL_TEMP_CELSIUS_VAL_REG, rbuf.data(), rbuf.size(), 0)) {
         ct = array_to_type<int32_t>(rbuf);
@@ -100,7 +101,7 @@ bool UnitKmeterISO::readInternalCelsiusTemperature(int32_t& ct) {
     return false;
 }
 
-bool UnitKmeterISO::readInternalFahrenheitTemperature(int32_t& ft) {
+bool UnitSTM32F030::readInternalFahrenheitTemperature(int32_t& ft) {
     std::array<uint8_t, 4> rbuf{};
     if (readRegister(INTERNAL_TEMP_FAHRENHEIT_VAL_REG, rbuf.data(), rbuf.size(), 0)) {
         ft = array_to_type<int32_t>(rbuf);
@@ -109,7 +110,7 @@ bool UnitKmeterISO::readInternalFahrenheitTemperature(int32_t& ft) {
     return false;
 }
 
-bool UnitKmeterISO::readCelsiusTemperatureString(char* str) {
+bool UnitSTM32F030::readCelsiusTemperatureString(char* str) {
     if (str && readRegister(TEMP_CELSIUS_STRING_REG, (uint8_t*)str, 8U, 0)) {
         str[8] = '\0';
         return true;
@@ -117,7 +118,7 @@ bool UnitKmeterISO::readCelsiusTemperatureString(char* str) {
     return false;
 }
 
-bool UnitKmeterISO::readFahrenheitTemperatureString(char* str) {
+bool UnitSTM32F030::readFahrenheitTemperatureString(char* str) {
     if (str && readRegister(TEMP_FAHRENHEIT_STRING_REG, (uint8_t*)str, 8U, 0)) {
         str[8] = '\0';
         return true;
@@ -125,7 +126,7 @@ bool UnitKmeterISO::readFahrenheitTemperatureString(char* str) {
     return false;
 }
 
-bool UnitKmeterISO::readInternalCelsiusTemperatureString(char* str) {
+bool UnitSTM32F030::readInternalCelsiusTemperatureString(char* str) {
     if (readRegister(INTERNAL_TEMP_CELSIUS_STRING_REG, (uint8_t*)str, 8U, 0)) {
         str[8] = '\0';
         return true;
@@ -133,7 +134,7 @@ bool UnitKmeterISO::readInternalCelsiusTemperatureString(char* str) {
     return false;
 }
 
-bool UnitKmeterISO::readInternalFahrenheitTemperatureString(char* str) {
+bool UnitSTM32F030::readInternalFahrenheitTemperatureString(char* str) {
     if (str && readRegister(INTERNAL_TEMP_FAHRENHEIT_STRING_REG, (uint8_t*)str, 8U, 0)) {
         str[8] = '\0';
         return true;
@@ -141,7 +142,7 @@ bool UnitKmeterISO::readInternalFahrenheitTemperatureString(char* str) {
     return false;
 }
 
-bool UnitKmeterISO::changeI2CAddress(const uint8_t i2c_address) {
+bool UnitSTM32F030::changeI2CAddress(const uint8_t i2c_address) {
     if (!m5::utility::isValidI2CAddress(i2c_address)) {
         M5_LIB_LOGE("Invalid address : %02X", i2c_address);
         return false;
@@ -160,12 +161,12 @@ bool UnitKmeterISO::changeI2CAddress(const uint8_t i2c_address) {
     return false;
 }
 
-bool UnitKmeterISO::readI2CAddress(uint8_t& i2c_address) {
+bool UnitSTM32F030::readI2CAddress(uint8_t& i2c_address) {
     return readRegister8(I2C_ADDRESS_REG, i2c_address, 0);
 }
 
 //
-bool UnitKmeterISO::read_measurement() {
+bool UnitSTM32F030::read_measurement() {
     uint8_t status{0xFF};
     if (!readStatus(status) || (status != 0)) {
         M5_LIB_LOGW("Not read or error:%Xx", status);
