@@ -10,7 +10,19 @@
     "type": "git",
     "url": "https://github.com/m5stack/M5Unit-KMeterISO.git"
   },
+  "dependencies": [
+    {
+      "name": "M5UnitUnified"
+    },
+    {
+      "name": "M5Utility"
+    },
+    {
+      "name": "M5HAL"
+    },
+
   "version": "1.0.0",
-  "frameworks": "arduino",
-  "platforms": "espressif32"
+  "frameworks": ["arduino", "espidf"],
+  "platforms": ["espressif32"],
+  "headers": "M5UnitKmeterISO.h,M5UnitUnifiedKmeterISO.h"
 }
