@@ -13,7 +13,7 @@
 #ifndef M5_UNIT_UNIFIED_KMETERISO_HPP
 #define M5_UNIT_UNIFIED_KMETERISO_HPP
 
-#include "unit/unit_STM32F030.hpp"
+#include "unit/unit_KmeterISO.hpp"
 
 /*!
   @namespace m5
@@ -25,10 +25,6 @@ namespace m5 {
   @namespace unit
   @brief Unit-related namespace
  */
-namespace unit {
-
-using UnitKmeterISO = m5::unit::UnitSTM32F030;
-
-}  // namespace unit
+namespace unit {}  // namespace unit
 }  // namespace m5
 #endif
