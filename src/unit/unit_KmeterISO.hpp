@@ -65,6 +65,9 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
 
     explicit UnitKmeterISO(const uint8_t addr = DEFAULT_ADDRESS)
         : Component(addr), _data{new m5::container::CircularBuffer<kmeterISO::Data>(1)} {
+        auto ccfg  = component_config();
+        ccfg.clock = 100 * 1000U;
+        component_config(ccfg);
     }
     virtual ~UnitKmeterISO() {
     }
