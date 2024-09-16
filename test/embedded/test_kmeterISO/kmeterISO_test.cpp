@@ -37,10 +37,10 @@ const ::testing::Environment* global_fixture = ::testing::AddGlobalTestEnvironme
 class TestKmeterISO : public ComponentTestBase<UnitKmeterISO, bool> {
    protected:
     virtual UnitKmeterISO* get_instance() override {
-        auto ptr        = new m5::unit::UnitKmeterISO();
-        auto cfg        = ptr->config();
-        cfg.stored_size = 8;
-        ptr->config(cfg);
+        auto ptr         = new m5::unit::UnitKmeterISO();
+        auto ccfg        = ptr->component_config();
+        ccfg.stored_size = 8;
+        ptr->component_config(ccfg);
         return ptr;
     }
     virtual bool is_using_hal() const override {
@@ -127,8 +127,6 @@ TEST_P(TestKmeterISO, Periodic) {
 /*
   WARNING!!
   Failure of this test will result in an unexpected I2C address being set!
-
-
 */
 TEST_P(TestKmeterISO, I2CAddress) {
     SCOPED_TRACE(ustr);

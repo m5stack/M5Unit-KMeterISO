@@ -56,11 +56,13 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
       @struct config_t
       @brief Settings for begin
      */
-    struct config_t : Component::config_t {
-        bool start_periodic{true};  //!< Start periodic measurement on begin?
-        uint32_t interval{100};     //!< periodic interval(ms)
-        kmeterISO::MeasurementUnit measurement_unit{
-            kmeterISO::MeasurementUnit::Celsius};  //!< measurement unit on periodic measuremen
+    struct config_t {
+        //! Start periodic measurement on begin?
+        bool start_periodic{true};
+        //! periodic interval(ms) if start on begin
+        uint32_t interval{100};
+        //! //!< measurement unit if start on begin
+        kmeterISO::MeasurementUnit measurement_unit{kmeterISO::MeasurementUnit::Celsius};
     };
 
     explicit UnitKmeterISO(const uint8_t addr = DEFAULT_ADDRESS)
@@ -106,6 +108,34 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
         return !empty() ? oldest().temperature() : std::numeric_limits<float>::quiet_NaN();
     }
     ///@}
+
+    ///@name Periodic measurement
+    ///@{
+    /*!
+      @brief Start periodic measurement in the current settings
+      @return True if successful
+    */
+    inline bool startPeriodicMeasurement() {
+        return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::startPeriodicMeasurement();
+    }
+    /*!
+      @brief Start periodic measurement
+      @param interval Periodic interval(ms)
+      @param munit Measurement unit
+      @return True if successful
+    */
+    inline bool startPeriodicMeasurement(const uint32_t interval,
+                                         const kmeterISO::MeasurementUnit munit = kmeterISO::Celsius) {
+        return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::startPeriodicMeasurement(interval,
+                                                                                                           munit);
+    }
+    /*!
+      @brief Stop periodic measurement
+      @return True if successful
+    */
+    inline bool stopPeriodicMeasurement() {
+        return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::stopPeriodicMeasurement();
+    }
 
     /*!
       @brief Read status
@@ -172,27 +202,10 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     ///@}
 
    protected:
-    ///@note Call via startPeriodicMeasurement/stopPeriodicMeasurement
-    ///@name Periodic measurement
-    ///@{
-    /*!
-      @brief Start periodic measurement
-     */
     bool start_periodic_measurement();
-    /*!
-      @brief Start periodic measurement
-      @param interval Interval of periodic measurement
-      @param munit Measurement unit on periodic measurement
-      @return True if successful
-    */
     bool start_periodic_measurement(const uint32_t interval,
                                     const kmeterISO::MeasurementUnit munit = kmeterISO::Celsius);
-    /*!
-      @brief Stop periodic measurement
-      @return True if successful
-    */
     bool stop_periodic_measurement();
-    ///@}
 
     bool read_measurement(kmeterISO::Data& d, const kmeterISO::MeasurementUnit munit);
     bool read_internal_measurement(kmeterISO::Data& d, const kmeterISO::MeasurementUnit munit);
