@@ -126,8 +126,7 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     */
     inline bool startPeriodicMeasurement(const uint32_t interval,
                                          const kmeterISO::MeasurementUnit munit = kmeterISO::Celsius) {
-        return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::startPeriodicMeasurement(interval,
-                                                                                                           munit);
+        return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::startPeriodicMeasurement(interval, munit);
     }
     /*!
       @brief Stop periodic measurement
