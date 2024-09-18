@@ -10,17 +10,12 @@
         "type": "git",
         "url": "https://github.com/m5stack/M5Unit-KMeterISO.git"
     },
-    "dependencies": [
-        {
-            "name": "M5UnitUnified"
-        },
-        {
-            "name": "M5Utility"
-        },
-        {
-            "name": "M5HAL"
-        }
-    ],
+    "dependencies":
+    {
+	"M5UnitUnified": "https://github.com/m5stack/M5UnitUnified.git",
+	"M5Utility": "https://github.com/m5stack/M5Utility.git",
+	"M5HAL": "https://github.com/m5stack/M5HAL.git"
+    },
     "version": "1.0.0",
     "frameworks": [
         "arduino",
