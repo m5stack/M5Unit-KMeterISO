@@ -1,3 +1,7 @@
+#if defined( M5_UNIT_UNIFIED_KMETERISO_HPP)
+#error "DO NOT USE it at the same time as M5UnitUnified libraries"
+#endif
+
 #ifndef _M5_UNIT_KMETER_ISO_H_
 #define _M5_UNIT_KMETER_ISO_H_
 
