@@ -135,7 +135,8 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     inline bool stopPeriodicMeasurement() {
         return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::stopPeriodicMeasurement();
     }
-
+    ///@}
+    
     /*!
       @brief Read status
       @param[out] status Status
@@ -160,7 +161,6 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
 
     ///@name Single shot measurement
     ///@{
-
     /*!
       @brief Measure temperature single shot
       @param[out] data Measuerd data
