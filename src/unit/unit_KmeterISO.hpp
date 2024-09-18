@@ -136,7 +136,7 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
         return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::stopPeriodicMeasurement();
     }
     ///@}
-    
+
     /*!
       @brief Read status
       @param[out] status Status
