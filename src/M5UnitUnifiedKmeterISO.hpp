@@ -10,7 +10,7 @@
   @mainpage M5Unit-KmeterISO
   Library for M5Unit-KmeterISO using M5UnitUnified.
 */
-#if defined( _M5_UNIT_KMETER_ISO_H_)
+#if defined(_M5_UNIT_KMETER_ISO_H_)
 #error "DO NOT USE it at the same time as conventional libraries"
 #endif
 

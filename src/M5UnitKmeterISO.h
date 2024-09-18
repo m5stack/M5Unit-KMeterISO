@@ -1,4 +1,4 @@
-#if defined( M5_UNIT_UNIFIED_KMETERISO_HPP)
+#if defined(M5_UNIT_UNIFIED_KMETERISO_HPP)
 #error "DO NOT USE it at the same time as M5UnitUnified libraries"
 #endif
 
