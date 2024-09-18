@@ -12,11 +12,18 @@ Contains case programs of M5Stack UNIT KMETERISO.
 
 [UNIT KMETERISO - MIT](LICENSE)
 
+---
 
 ## M5UnitUnified
-Library for Unit ENV using M5UnitUnified.  
-The M5UnitUnified version of the library is located under [src/unit](src/unit).  
-M5UnitUnfied has a unified API and can control multiple units via PaHub, etc.
+Library for Unit KMETERISO using [M5UnitUnified](https://github.com/m5stack/M5UnitUnified).  
+M5UnitUnified is a library for unified handling of various M5 units products.  
+The M5UnitUnified version of the library is located under [src/unit](src/unit).
+
+### Include file
+```cpp
+#include <M5UnitUnifiedKmeterISO.h> // For UnitUnified
+//#include <M5UnitKmeterISO.h> // When using M5UnitUnified, do not use it at the same time as conventional libraries
+```
 
 ### Required Libraries:
 
