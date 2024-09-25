@@ -20,11 +20,13 @@ M5UnitKmeterISO kmeter;
 uint8_t error_status = 0;
 long delay_time      = 0;
 
-long map(long x, long in_min, long in_max, long out_min, long out_max) {
+long map(long x, long in_min, long in_max, long out_min, long out_max)
+{
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
     while (!kmeter.begin(&Wire, KMETER_DEFAULT_ADDR, 21, 22, 100000L)) {
         Serial.println("Unit KmeterISO not found");
@@ -33,7 +35,8 @@ void setup() {
     delay_time = millis() + INTERVAL_TIME;
 }
 
-void loop() {
+void loop()
+{
     if (millis() > delay_time) {
         error_status = kmeter.getReadyStatus();
         if (error_status == 0) {

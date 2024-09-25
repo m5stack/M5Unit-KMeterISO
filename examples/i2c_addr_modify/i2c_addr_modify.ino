@@ -17,7 +17,8 @@
 
 M5UnitKmeterISO kmeter;
 
-void setup() {
+void setup()
+{
     delay(2000);
     Serial.begin(115200);
     while (!kmeter.begin(&Wire, KMETER_DEFAULT_ADDR, 21, 22, 100000L)) {
@@ -31,5 +32,6 @@ void setup() {
     }
 }
 
-void loop() {
+void loop()
+{
 }
