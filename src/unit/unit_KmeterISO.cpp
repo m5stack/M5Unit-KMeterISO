@@ -19,7 +19,8 @@ using namespace m5::unit::kmeterISO::command;
 
 namespace {
 template <typename T>
-T array_to_type(const std::array<uint8_t, 4>& a) {
+T array_to_type(const std::array<uint8_t, 4>& a)
+{
     static_assert(std::is_integral<T>::value && sizeof(T) == 4, "Invalid type");
     return static_cast<T>((((uint32_t)a[3]) << 24) | (((uint32_t)a[2]) << 16) | (((uint32_t)a[1]) << 8) |
                           (((uint32_t)a[0]) << 0));
@@ -44,7 +45,8 @@ const char UnitKmeterISO::name[] = "UnitKmeterISO";
 const types::uid_t UnitKmeterISO::uid{"UnitKmeterISO"_mmh3};
 const types::uid_t UnitKmeterISO::attr{0};
 
-bool UnitKmeterISO::begin() {
+bool UnitKmeterISO::begin()
+{
     auto ssize = stored_size();
     assert(ssize && "stored_size must be greater than zero");
     if (ssize != _data->capacity()) {
@@ -63,7 +65,8 @@ bool UnitKmeterISO::begin() {
     return _cfg.start_periodic ? startPeriodicMeasurement(_cfg.interval, _cfg.measurement_unit) : true;
 }
 
-void UnitKmeterISO::update(const bool force) {
+void UnitKmeterISO::update(const bool force)
+{
     _updated = false;
     if (inPeriodic()) {
         elapsed_time_t at{m5::utility::millis()};
@@ -78,7 +81,8 @@ void UnitKmeterISO::update(const bool force) {
     }
 }
 
-bool UnitKmeterISO::start_periodic_measurement() {
+bool UnitKmeterISO::start_periodic_measurement()
+{
     if (inPeriodic()) {
         M5_LIB_LOGD("Periodic measurements are running");
         return false;
@@ -88,7 +92,8 @@ bool UnitKmeterISO::start_periodic_measurement() {
     return true;
 }
 
-bool UnitKmeterISO::start_periodic_measurement(const uint32_t interval, const MeasurementUnit munit) {
+bool UnitKmeterISO::start_periodic_measurement(const uint32_t interval, const MeasurementUnit munit)
+{
     if (start_periodic_measurement()) {
         _interval = interval;
         _munit    = munit;
@@ -97,21 +102,25 @@ bool UnitKmeterISO::start_periodic_measurement(const uint32_t interval, const Me
     return false;
 }
 
-bool UnitKmeterISO::stop_periodic_measurement() {
+bool UnitKmeterISO::stop_periodic_measurement()
+{
     _periodic = _updated = false;
     return true;
 }
 
-bool UnitKmeterISO::readStatus(uint8_t& status) {
+bool UnitKmeterISO::readStatus(uint8_t& status)
+{
     status = 0xFF;
     return readRegister8(ERROR_STATUS_REG, status, 0);
 }
 
-bool UnitKmeterISO::readFirmwareVersion(uint8_t& ver) {
+bool UnitKmeterISO::readFirmwareVersion(uint8_t& ver)
+{
     return readRegister8(FIRMWARE_VERSION_REG, ver, 0);
 }
 
-bool UnitKmeterISO::measureSingleshot(kmeterISO::Data& d, kmeterISO::MeasurementUnit munit, const uint32_t timeoutMs) {
+bool UnitKmeterISO::measureSingleshot(kmeterISO::Data& d, kmeterISO::MeasurementUnit munit, const uint32_t timeoutMs)
+{
     auto timeout_at = m5::utility::millis() + timeoutMs;
     do {
         if (isReady()) {
@@ -125,7 +134,8 @@ bool UnitKmeterISO::measureSingleshot(kmeterISO::Data& d, kmeterISO::Measurement
 }
 
 bool UnitKmeterISO::measureInternalSingleshot(kmeterISO::Data& d, kmeterISO::MeasurementUnit munit,
-                                              const uint32_t timeoutMs) {
+                                              const uint32_t timeoutMs)
+{
     auto timeout_at = m5::utility::millis() + timeoutMs;
     do {
         if (isReady()) {
@@ -138,7 +148,8 @@ bool UnitKmeterISO::measureInternalSingleshot(kmeterISO::Data& d, kmeterISO::Mea
     return false;
 }
 
-bool UnitKmeterISO::changeI2CAddress(const uint8_t i2c_address) {
+bool UnitKmeterISO::changeI2CAddress(const uint8_t i2c_address)
+{
     if (!m5::utility::isValidI2CAddress(i2c_address)) {
         M5_LIB_LOGE("Invalid address : %02X", i2c_address);
         return false;
@@ -157,17 +168,20 @@ bool UnitKmeterISO::changeI2CAddress(const uint8_t i2c_address) {
     return false;
 }
 
-bool UnitKmeterISO::readI2CAddress(uint8_t& i2c_address) {
+bool UnitKmeterISO::readI2CAddress(uint8_t& i2c_address)
+{
     return readRegister8(I2C_ADDRESS_REG, i2c_address, 1);
 }
 
 //
-bool UnitKmeterISO::read_measurement(Data& d, const kmeterISO::MeasurementUnit munit) {
+bool UnitKmeterISO::read_measurement(Data& d, const kmeterISO::MeasurementUnit munit)
+{
     assert(m5::stl::to_underlying(munit) < m5::stl::size(reg_temperature_table));
     return readRegister(reg_temperature_table[m5::stl::to_underlying(munit)], d.raw.data(), d.raw.size(), 0);
 }
 
-bool UnitKmeterISO::read_internal_measurement(Data& d, const kmeterISO::MeasurementUnit munit) {
+bool UnitKmeterISO::read_internal_measurement(Data& d, const kmeterISO::MeasurementUnit munit)
+{
     assert(m5::stl::to_underlying(munit) < m5::stl::size(reg_internal_temperature_table));
     return readRegister(reg_internal_temperature_table[m5::stl::to_underlying(munit)], d.raw.data(), d.raw.size(), 0);
 }

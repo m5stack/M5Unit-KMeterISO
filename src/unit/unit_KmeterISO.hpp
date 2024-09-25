@@ -35,7 +35,8 @@ enum MeasurementUnit : uint8_t {
  */
 struct Data {
     std::array<uint8_t, 4> raw{};  // raw data
-    inline float temperature() const {
+    inline float temperature() const
+    {
         return static_cast<int32_t>(((uint32_t)raw[3] << 24) | ((uint32_t)raw[2] << 16) | ((uint32_t)raw[1] << 8) |
                                     ((uint32_t)raw[0] << 0)) *
                0.01f;
@@ -51,7 +52,7 @@ struct Data {
 class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data> {
     M5_UNIT_COMPONENT_HPP_BUILDER(UnitKmeterISO, 0x66);
 
-   public:
+public:
     /*!
       @struct config_t
       @brief Settings for begin
@@ -66,12 +67,14 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     };
 
     explicit UnitKmeterISO(const uint8_t addr = DEFAULT_ADDRESS)
-        : Component(addr), _data{new m5::container::CircularBuffer<kmeterISO::Data>(1)} {
+        : Component(addr), _data{new m5::container::CircularBuffer<kmeterISO::Data>(1)}
+    {
         auto ccfg  = component_config();
         ccfg.clock = 100 * 1000U;
         component_config(ccfg);
     }
-    virtual ~UnitKmeterISO() {
+    virtual ~UnitKmeterISO()
+    {
     }
 
     virtual bool begin() override;
@@ -80,11 +83,13 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     ///@name Settings for begin
     ///@{
     /*! @brief Gets the configration */
-    inline config_t config() {
+    inline config_t config()
+    {
         return _cfg;
     }
     //! @brief Set the configration
-    inline void config(const config_t& cfg) {
+    inline void config(const config_t& cfg)
+    {
         _cfg = cfg;
     }
     ///@}
@@ -92,11 +97,13 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     ///@name Properties
     ///@{
     /*! Gets the measurement unit on periodic measurement */
-    kmeterISO::MeasurementUnit measurementUnit() const {
+    kmeterISO::MeasurementUnit measurementUnit() const
+    {
         return _munit;
     }
     /*! Set the measurement unit on periodic measurement */
-    void setMeasurementUnit(const kmeterISO::MeasurementUnit munit) {
+    void setMeasurementUnit(const kmeterISO::MeasurementUnit munit)
+    {
         _munit = munit;
     }
     ///@}
@@ -104,7 +111,8 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     ///@name Measurement data by periodic
     ///@{
     //! @brief Oldest temperature
-    inline float temperature() const {
+    inline float temperature() const
+    {
         return !empty() ? oldest().temperature() : std::numeric_limits<float>::quiet_NaN();
     }
     ///@}
@@ -115,7 +123,8 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
       @brief Start periodic measurement in the current settings
       @return True if successful
     */
-    inline bool startPeriodicMeasurement() {
+    inline bool startPeriodicMeasurement()
+    {
         return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::startPeriodicMeasurement();
     }
     /*!
@@ -125,14 +134,16 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
       @return True if successful
     */
     inline bool startPeriodicMeasurement(const uint32_t interval,
-                                         const kmeterISO::MeasurementUnit munit = kmeterISO::Celsius) {
+                                         const kmeterISO::MeasurementUnit munit = kmeterISO::Celsius)
+    {
         return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::startPeriodicMeasurement(interval, munit);
     }
     /*!
       @brief Stop periodic measurement
       @return True if successful
     */
-    inline bool stopPeriodicMeasurement() {
+    inline bool stopPeriodicMeasurement()
+    {
         return PeriodicMeasurementAdapter<UnitKmeterISO, kmeterISO::Data>::stopPeriodicMeasurement();
     }
     ///@}
@@ -147,7 +158,8 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
       @brief Ready to read data?
       @return True if ready to read data
     */
-    bool isReady() {
+    bool isReady()
+    {
         uint8_t s{};
         return readStatus(s) && (s == 0U);
     }
@@ -200,7 +212,7 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
     bool readI2CAddress(uint8_t& i2c_address);
     ///@}
 
-   protected:
+protected:
     bool start_periodic_measurement();
     bool start_periodic_measurement(const uint32_t interval,
                                     const kmeterISO::MeasurementUnit munit = kmeterISO::Celsius);
@@ -211,7 +223,7 @@ class UnitKmeterISO : public Component, public PeriodicMeasurementAdapter<UnitKm
 
     M5_UNIT_COMPONENT_PERIODIC_MEASUREMENT_ADAPTER_HPP_BUILDER(UnitKmeterISO, kmeterISO::Data);
 
-   protected:
+protected:
     std::unique_ptr<m5::container::CircularBuffer<kmeterISO::Data>> _data{};
     kmeterISO::MeasurementUnit _munit{kmeterISO::MeasurementUnit::Celsius};
     config_t _cfg{};

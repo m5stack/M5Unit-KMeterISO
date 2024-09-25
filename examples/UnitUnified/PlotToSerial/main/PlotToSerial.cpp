@@ -22,7 +22,8 @@ m5::unit::UnitKmeterISO unit;
 auto& lcd = M5.Display;
 }  // namespace
 
-void setup() {
+void setup()
+{
     M5.begin();
 
     m5::utility::delay(3000);
@@ -71,7 +72,8 @@ void setup() {
     lcd.clear(TFT_DARKGREEN);
 }
 
-void loop() {
+void loop()
+{
     M5.update();
     Units.update();
     if (unit.updated()) {

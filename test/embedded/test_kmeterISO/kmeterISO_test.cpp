@@ -23,7 +23,8 @@ using namespace m5::unit::kmeterISO;
 using namespace m5::unit::kmeterISO::command;
 
 namespace {
-void check_measurement_values(UnitKmeterISO* u) {
+void check_measurement_values(UnitKmeterISO* u)
+{
     EXPECT_TRUE(std::isfinite(u->latest().temperature()));
     // M5_LOGI("T:%f", u->latest().temperature());
 }
@@ -35,15 +36,17 @@ constexpr MeasurementUnit mu_table[] = {MeasurementUnit::Celsius, MeasurementUni
 const ::testing::Environment* global_fixture = ::testing::AddGlobalTestEnvironment(new GlobalFixture<100000U>());
 
 class TestKmeterISO : public ComponentTestBase<UnitKmeterISO, bool> {
-   protected:
-    virtual UnitKmeterISO* get_instance() override {
+protected:
+    virtual UnitKmeterISO* get_instance() override
+    {
         auto ptr         = new m5::unit::UnitKmeterISO();
         auto ccfg        = ptr->component_config();
         ccfg.stored_size = 8;
         ptr->component_config(ccfg);
         return ptr;
     }
-    virtual bool is_using_hal() const override {
+    virtual bool is_using_hal() const override
+    {
         return GetParam();
     };
 };
@@ -52,7 +55,8 @@ class TestKmeterISO : public ComponentTestBase<UnitKmeterISO, bool> {
 // INSTANTIATE_TEST_SUITE_P(ParamValues, TestKmeterISO, ::testing::Values(true));
 INSTANTIATE_TEST_SUITE_P(ParamValues, TestKmeterISO, ::testing::Values(false));
 
-TEST_P(TestKmeterISO, Basic) {
+TEST_P(TestKmeterISO, Basic)
+{
     SCOPED_TRACE(ustr);
 
     // Version
@@ -69,7 +73,8 @@ TEST_P(TestKmeterISO, Basic) {
     EXPECT_EQ(unit->measurementUnit(), MeasurementUnit::Celsius);
 }
 
-TEST_P(TestKmeterISO, Singleshot) {
+TEST_P(TestKmeterISO, Singleshot)
+{
     SCOPED_TRACE(ustr);
 
     Data d{};
@@ -84,7 +89,8 @@ TEST_P(TestKmeterISO, Singleshot) {
     }
 }
 
-TEST_P(TestKmeterISO, Periodic) {
+TEST_P(TestKmeterISO, Periodic)
+{
     SCOPED_TRACE(ustr);
 
     constexpr uint32_t interval{25};
@@ -128,7 +134,8 @@ TEST_P(TestKmeterISO, Periodic) {
   WARNING!!
   Failure of this test will result in an unexpected I2C address being set!
 */
-TEST_P(TestKmeterISO, I2CAddress) {
+TEST_P(TestKmeterISO, I2CAddress)
+{
     SCOPED_TRACE(ustr);
 
     Data d{};
