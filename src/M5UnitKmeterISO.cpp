@@ -42,35 +42,31 @@ bool M5UnitKmeterISO::begin(TwoWire *wire, uint8_t addr, uint8_t sda,
 }
 
 int32_t M5UnitKmeterISO::getCelsiusTempValue(void) {
-    uint8_t read_buf[4] = {0};
+    int32_t res = 0;
 
-    readBytes(_addr, KMETER_TEMP_VAL_REG, read_buf, 4);
-    return (read_buf[3] << 24) | (read_buf[2] << 16) | (read_buf[1] << 8) |
-           read_buf[0];
+    readBytes(_addr, KMETER_TEMP_VAL_REG, (uint8_t *)&res, 4);
+    return res;
 }
 
 int32_t M5UnitKmeterISO::getFahrenheitTempValue(void) {
-    uint8_t read_buf[4] = {0};
+    int32_t res = 0;
 
-    readBytes(_addr, KMETER_TEMP_VAL_REG + 4, read_buf, 4);
-    return (read_buf[3] << 24) | (read_buf[2] << 16) | (read_buf[1] << 8) |
-           read_buf[0];
+    readBytes(_addr, KMETER_TEMP_VAL_REG + 4, (uint8_t *)&res, 4);
+    return res;
 }
 
 int32_t M5UnitKmeterISO::getInternalCelsiusTempValue(void) {
-    uint8_t read_buf[4] = {0};
+    int32_t res = 0;
 
-    readBytes(_addr, KMETER_INTERNAL_TEMP_VAL_REG, read_buf, 4);
-    return (read_buf[3] << 24) | (read_buf[2] << 16) | (read_buf[1] << 8) |
-           read_buf[0];
+    readBytes(_addr, KMETER_INTERNAL_TEMP_VAL_REG, (uint8_t *)&res, 4);
+    return res;
 }
 
 int32_t M5UnitKmeterISO::getInternalFahrenheitTempValue(void) {
-    uint8_t read_buf[4] = {0};
+    int32_t res = 0;
 
-    readBytes(_addr, KMETER_INTERNAL_TEMP_VAL_REG + 4, read_buf, 4);
-    return (read_buf[3] << 24) | (read_buf[2] << 16) | (read_buf[1] << 8) |
-           read_buf[0];
+    readBytes(_addr, KMETER_INTERNAL_TEMP_VAL_REG + 4, (uint8_t *)&res, 4);
+    return res;
 }
 
 void M5UnitKmeterISO::getCelsiusTempString(char *str) {
