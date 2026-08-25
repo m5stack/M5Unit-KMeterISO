@@ -16,7 +16,7 @@ void M5UnitKmeterISO::readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer,
     uint8_t index = 0;
     _wire->beginTransmission(addr);
     _wire->write(reg);
-    _wire->endTransmission(false);
+    _wire->endTransmission();
     _wire->requestFrom(addr, length);
     for (int i = 0; i < length; i++) {
         buffer[index++] = _wire->read();
